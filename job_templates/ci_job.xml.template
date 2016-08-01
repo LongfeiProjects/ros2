@@ -135,9 +135,6 @@ fi
 if [ -n "${CI_AMENT_BUILD_ARGS+x}" ]; then
   export CI_ARGS="$CI_ARGS --ament-build-args $CI_AMENT_BUILD_ARGS"
 fi
-if [ -n "${CI_AMENT_TEST_ARGS+x}" ]; then
-  export CI_ARGS="$CI_ARGS --ament-test-args $CI_AMENT_TEST_ARGS"
-fi
 if [ "$CI_ENABLE_C_COVERAGE" = "true" ]; then
   export CI_ARGS="$CI_ARGS --coverage"
 fi
@@ -184,6 +181,9 @@ export CONTAINER_NAME=ros2_batch_ci_aarch64
 @[else]@
 @{ assert 'Unknown os_name: ' + os_name }@
 @[end if]@
+if [ -n "${CI_AMENT_TEST_ARGS+x}" ]; then
+  export CI_ARGS="$CI_ARGS --ament-test-args $CI_AMENT_TEST_ARGS"
+fi
 docker run --privileged -e UID=`id -u` -e GID=`id -g` -e CI_ARGS="$CI_ARGS" -e CCACHE_DIR=/home/rosbuild/.ccache -i -v `pwd`:/home/rosbuild/ci_scripts -v $HOME/.ccache:/home/rosbuild/.ccache $EXTRA_MOUNT $CONTAINER_NAME
 @[if os_name in ['linux-armhf', 'linux-aarch64']]@
 rm -rf $tmpd
