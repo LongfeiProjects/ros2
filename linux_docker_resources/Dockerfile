@@ -18,6 +18,9 @@ RUN apt-get update && apt-get install -y curl
 # Get https transport for APT.
 RUN apt-get update && apt-get install -y apt-transport-https
 
+# Get net-tools so we can enable multicast later
+RUN apt-get update && apt-get install -y net-tools
+
 # Add the ROS repositories to the apt sources list.
 RUN echo "deb http://repositories.ros.org/ubuntu/testing/ `lsb_release -cs` main" > /etc/apt/sources.list.d/ros-latest.list
 RUN curl --silent http://repositories.ros.org/repos.key | apt-key add -
